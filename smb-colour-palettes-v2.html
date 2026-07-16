@@ -1,0 +1,1020 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo SMB Colour System</title>
+<style>
+  :root {
+    --page-bg: #f4f4ef;
+    --card-bg: #ffffff;
+    --ink: #242424;
+    --muted: #66665f;
+    --line: #e8e8e0;
+    --active: #2E3025;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 36px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--page-bg);
+    color: var(--ink);
+  }
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 36px rgba(0,0,0,.08);
+  }
+  h1 { margin: 0 0 8px; font-size: 30px; }
+  h2 { margin: 0 0 8px; font-size: 23px; }
+  h3 { margin: 0; font-size: 19px; }
+  p { line-height: 1.5; }
+  .note { margin: 0; color: var(--muted); }
+  .intro { margin-bottom: 22px; }
+  .tabs {
+    display: flex;
+    gap: 8px;
+    padding: 6px;
+    margin: 22px 0 28px;
+    background: #f0f0eb;
+    border-radius: 13px;
+    overflow-x: auto;
+  }
+  .tab-button {
+    flex: 1 0 auto;
+    appearance: none;
+    border: 0;
+    border-radius: 9px;
+    padding: 12px 16px;
+    font: 700 14px/1.2 Arial, Helvetica, sans-serif;
+    background: transparent;
+    color: #55554f;
+    cursor: pointer;
+    transition: .18s ease;
+  }
+  .tab-button:hover { background: rgba(255,255,255,.7); }
+  .tab-button.active {
+    background: var(--active);
+    color: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,.13);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .section-head { margin-bottom: 20px; }
+  .layout {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+  }
+  .logo-card {
+    position: sticky;
+    top: 20px;
+  }
+  .logo-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: white;
+  }
+  .logo-caption {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+  }
+  table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  th, td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: 0; }
+  th {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    background: #fafaf7;
+  }
+  .swatch {
+    width: 122px;
+    height: 43px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 700 12px/1 monospace;
+    border: 1px solid rgba(0,0,0,.16);
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+  }
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .palette-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    background: white;
+  }
+  .palette-number {
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    left: 10px;
+    min-width: 34px;
+    padding: 6px 8px;
+    border-radius: 7px;
+    background: rgba(255,255,255,.88);
+    color: #242424;
+    font: 700 12px/1 monospace;
+    backdrop-filter: blur(4px);
+  }
+  .palette-preview {
+    display: flex;
+    min-height: 138px;
+  }
+  .palette-segment {
+    flex: 1;
+    min-width: 0;
+    padding: 48px 10px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 5px;
+  }
+  .palette-segment span {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .palette-segment code {
+    font-size: 11px;
+    color: inherit;
+  }
+  .palette-content { padding: 16px; }
+  .palette-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .palette-content p {
+    min-height: 44px;
+    margin: 9px 0 12px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .type-chip {
+    flex: 0 0 auto;
+    border-radius: 999px;
+    padding: 5px 8px;
+    background: #f0f0eb;
+    color: #55554f;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .hex-sequence {
+    color: #4f4f49;
+    font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .guidance {
+    margin: 0 0 20px;
+    padding: 14px 16px;
+    border-radius: 11px;
+    background: #f8f8f4;
+    color: #55554f;
+    font-size: 14px;
+  }
+  /* --- per-palette CTA + text recommendation --- */
+  .rec {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+  }
+  .rec-label {
+    font: 700 9.5px/1 Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .cta-two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .rec-surface {
+    margin: 0 0 12px;
+    font: 12.5px/1.5 Arial, Helvetica, sans-serif;
+    color: #55554f;
+  }
+  .rec-surface b { color: #242424; }
+  .cta-opt {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .cta-stage {
+    padding: 26px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cta-btn {
+    border: 0;
+    border-radius: 999px;
+    padding: 11px 20px;
+    font: 700 13px/1 Arial, Helvetica, sans-serif;
+    box-shadow: 0 2px 9px rgba(0,0,0,.22);
+    cursor: default;
+  }
+  .cta-info { padding: 12px 13px 14px; display: flex; flex-direction: column; gap: 5px; }
+  .cta-role {
+    font: 700 9px/1 Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+  }
+  .cta-name { font: 700 13px/1.2 Arial, Helvetica, sans-serif; color: #242424; }
+  .cta-meta { font: 11px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #6a6a62; }
+  .cta-badges { font: 11px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .cta-badges b { font-weight: 700; }
+  .cta-badges .ok { color: #3d7a2f; }
+  .cta-badges .mid { color: #9a6410; }
+  /* --- CTA recommendation panel --- */
+  .cta-panel {
+    margin-top: 34px;
+    padding-top: 30px;
+    border-top: 2px dashed var(--line);
+  }
+  .cta-panel .site-context {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 22px;
+  }
+  .context-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fafaf7;
+    font-size: 12px;
+    color: #55554f;
+  }
+  .context-chip .dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,.16);
+    flex: 0 0 auto;
+  }
+  .cta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .cta-card {
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    overflow: hidden;
+    background: white;
+  }
+  .cta-card.primary { border-color: #d9d2c4; box-shadow: 0 4px 16px rgba(240,92,54,.10); }
+  .cta-stage {
+    /* preview against the live site background */
+    background: var(--page-bg);
+    padding: 26px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .cta-demo {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    padding: 14px 30px;
+    font: 700 15px/1 Arial, Helvetica, sans-serif;
+    cursor: default;
+    box-shadow: 0 4px 12px rgba(0,0,0,.14);
+    transition: filter .15s ease;
+  }
+  .cta-demo:hover { filter: brightness(.93); }
+  .cta-demo.outline {
+    background: transparent !important;
+    border: 2px solid;
+    box-shadow: none;
+  }
+  .cta-stage-label { font-size: 11px; color: var(--muted); }
+  .cta-body { padding: 16px 18px 18px; }
+  .cta-role {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font: 700 10px/1 Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 10px;
+  }
+  .cta-role.p { background: #F05C36; color: #fff; }
+  .cta-role.s { background: #eef2f6; color: #1C6CAC; }
+  .cta-role.n { background: #ecece7; color: #2E3025; }
+  .cta-card h3 { font-size: 17px; margin: 0 0 8px; }
+  .cta-card p { margin: 0 0 12px; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+  .cta-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    align-items: center;
+    font: 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #4f4f49;
+  }
+  .cta-specs .sep { color: #c7c7bd; }
+  .cta-swatch-mini {
+    display: inline-block;
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,.18);
+    vertical-align: -1px;
+    margin-right: 4px;
+  }
+  .wcag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font: 700 11px/1 Arial, Helvetica, sans-serif;
+    margin-top: 12px;
+  }
+  .wcag.aaa { background: #e3f4e8; color: #1E7A34; }
+  .wcag.aa  { background: #e6f0f8; color: #1C6CAC; }
+  .wcag.aalarge { background: #fdf1e0; color: #9a6410; }
+  .text-pairing {
+    margin-top: 26px;
+    padding: 16px 18px;
+    border-radius: 13px;
+    background: #f8f8f4;
+    border: 1px solid var(--line);
+  }
+  .text-pairing h4 { margin: 0 0 6px; font-size: 15px; }
+  .text-pairing p { margin: 0; color: #55554f; font-size: 13.5px; line-height: 1.55; }
+  @media (max-width: 840px) {
+    .cta-grid { grid-template-columns: 1fr; }
+    body { padding: 18px; }
+    .wrap { padding: 20px; }
+    .layout { grid-template-columns: 1fr; }
+    .logo-card { position: static; }
+    .logo-card img { max-width: 300px; }
+    .palette-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    body { padding: 0; background: white; }
+    .wrap { padding: 18px; border-radius: 0; box-shadow: none; }
+    .palette-preview { min-height: 160px; }
+    .palette-segment { padding-left: 7px; padding-right: 7px; }
+    .palette-segment span { font-size: 10px; }
+    .palette-segment code { font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="intro">
+    <h1>Logo SMB Colour System</h1>
+    <p class="note">Primary colours sampled from the artwork, coordinating complementary colours, and ready-to-use promotional mini palettes.</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Colour palette sections">
+    <button class="tab-button active" id="tab-primary" role="tab" aria-selected="true" aria-controls="panel-primary" data-tab="panel-primary">1. Primary palette</button>
+    <button class="tab-button" id="tab-complementary" role="tab" aria-selected="false" aria-controls="panel-complementary" data-tab="panel-complementary">2. Complementary colours</button>
+    <button class="tab-button" id="tab-promos" role="tab" aria-selected="false" aria-controls="panel-promos" data-tab="panel-promos">3. Promo mini palettes</button>
+  </nav>
+
+  <section class="tab-panel active" id="panel-primary" role="tabpanel" aria-labelledby="tab-primary">
+    <div class="section-head">
+      <h2>Primary artwork palette</h2>
+      <p class="note">Approximate representative HEX values. Anti-aliasing and WebP compression create minor pixel variations.</p>
+    </div>
+    <div class="layout">
+      <aside class="logo-card">
+        <img src="data:image/webp;base64,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" alt="Uploaded Secretly Me Baby artwork">
+        <div class="logo-caption">Original reference artwork</div>
+      </aside>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Colour panel</th><th>Colour name</th><th>HEX</th><th>Used in</th></tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td><div class="swatch" style="background:#FEFEFE;color:#242424">#FEFEFE</div></td>
+          <td>Soft White</td>
+          <td><code>#FEFEFE</code></td>
+          <td>Background</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#2E3025;color:#FFFFFF">#2E3025</div></td>
+          <td>Charcoal Ink</td>
+          <td><code>#2E3025</code></td>
+          <td>Outlines and shoes</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#1E9336;color:#FFFFFF">#1E9336</div></td>
+          <td>Tropical Leaf Green</td>
+          <td><code>#1E9336</code></td>
+          <td>Leaves and rainbow</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#1C6CAC;color:#FFFFFF">#1C6CAC</div></td>
+          <td>Bright Cobalt Blue</td>
+          <td><code>#1C6CAC</code></td>
+          <td>Clothing, planet ring and rainbow</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#F4B620;color:#242424">#F4B620</div></td>
+          <td>Golden Yellow</td>
+          <td><code>#F4B620</code></td>
+          <td>Lettering, hands and face details</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#F05C36;color:#FFFFFF">#F05C36</div></td>
+          <td>Red Orange</td>
+          <td><code>#F05C36</code></td>
+          <td>Rainbow and cap accents</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#EB9C2D;color:#242424">#EB9C2D</div></td>
+          <td>Warm Orange</td>
+          <td><code>#EB9C2D</code></td>
+          <td>Rainbow and small highlights</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#F9CC9C;color:#242424">#F9CC9C</div></td>
+          <td>Warm Peach</td>
+          <td><code>#F9CC9C</code></td>
+          <td>Body and plant pot</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#F7ABCB;color:#242424">#F7ABCB</div></td>
+          <td>Bubblegum Pink</td>
+          <td><code>#F7ABCB</code></td>
+          <td>Planet, smile and rainbow</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#61441F;color:#FFFFFF">#61441F</div></td>
+          <td>Earth Brown</td>
+          <td><code>#61441F</code></td>
+          <td>Soil and darker warm details</td>
+        </tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="panel-complementary" role="tabpanel" aria-labelledby="tab-complementary">
+    <div class="section-head">
+      <h2>10 coordinating complementary colours</h2>
+      <p class="note">These colours extend the original retro palette while preserving its warm, playful and hand-drawn personality.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Colour panel</th><th>Colour name</th><th>HEX</th><th>Pairs especially well with</th><th>Suggested role</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><div class="swatch" style="background:#243B64;color:#FFFFFF">#243B64</div></td>
+          <td>Midnight Navy</td>
+          <td><code>#243B64</code></td>
+          <td>Soft White</td>
+          <td>Strong dark background and text colour</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#C9B8E8;color:#242424">#C9B8E8</div></td>
+          <td>Lavender Mist</td>
+          <td><code>#C9B8E8</code></td>
+          <td>Charcoal Ink</td>
+          <td>Soft retro contrast without feeling overly bright</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#5A3A6E;color:#FFFFFF">#5A3A6E</div></td>
+          <td>Deep Plum</td>
+          <td><code>#5A3A6E</code></td>
+          <td>Golden Yellow</td>
+          <td>Rich contrast for evening, winter and premium graphics</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#A8DCC8;color:#242424">#A8DCC8</div></td>
+          <td>Seafoam Green</td>
+          <td><code>#A8DCC8</code></td>
+          <td>Earth Brown</td>
+          <td>Fresh natural contrast for lifestyle and garden themes</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#176B68;color:#FFFFFF">#176B68</div></td>
+          <td>Deep Teal</td>
+          <td><code>#176B68</code></td>
+          <td>Warm Peach</td>
+          <td>Grounds warm colours and supports premium promotions</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#B9D9F2;color:#242424">#B9D9F2</div></td>
+          <td>Powder Blue</td>
+          <td><code>#B9D9F2</code></td>
+          <td>Red Orange</td>
+          <td>Clean cool contrast for summer and sale graphics</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#FFF0B5;color:#242424">#FFF0B5</div></td>
+          <td>Butter Cream</td>
+          <td><code>#FFF0B5</code></td>
+          <td>Tropical Leaf Green</td>
+          <td>Warm light neutral for soft seasonal backgrounds</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#B8664A;color:#FFFFFF">#B8664A</div></td>
+          <td>Terracotta Clay</td>
+          <td><code>#B8664A</code></td>
+          <td>Bright Cobalt Blue</td>
+          <td>Earthy warmth with a vintage editorial feel</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#C87998;color:#242424">#C87998</div></td>
+          <td>Rose Mauve</td>
+          <td><code>#C87998</code></td>
+          <td>Warm Orange</td>
+          <td>Mature pink accent for gifting and beauty promotions</td>
+        </tr>
+        <tr>
+          <td><div class="swatch" style="background:#D8C6A5;color:#242424">#D8C6A5</div></td>
+          <td>Sand Beige</td>
+          <td><code>#D8C6A5</code></td>
+          <td>Bubblegum Pink</td>
+          <td>Neutral base that softens high-energy colours</td>
+        </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tab-panel" id="panel-promos" role="tabpanel" aria-labelledby="tab-promos">
+    <div class="section-head">
+      <h2>15 seasonal and promotional mini palettes</h2>
+      <p class="note">Each palette names a background surface plus two on-brand CTA buttons, chosen so the button always contrasts starkly with that surface.</p>
+    </div>
+    <div class="guidance"><strong>Practical use:</strong> each card picks one palette colour as the <strong>section background</strong> (shown behind the buttons) and two branded <strong>CTA colours</strong> that stand out against it. Colours were selected so a promo button never blends into its surface; a near-black is used only where a palette offers no darker brand option. Contrast is annotated as button-vs-surface and label-vs-button.</div>
+    <div class="palette-grid">
+        <article class="palette-card">
+          <div class="palette-number">01</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#FFF0B5;color:#242424"><span>Butter Cream</span><code>#FFF0B5</code></div><div class="palette-segment" style="background:#1E9336;color:#FFFFFF"><span>Tropical Leaf Green</span><code>#1E9336</code></div><div class="palette-segment" style="background:#F7ABCB;color:#242424"><span>Bubblegum Pink</span><code>#F7ABCB</code></div><div class="palette-segment" style="background:#5A3A6E;color:#FFFFFF"><span>Deep Plum</span><code>#5A3A6E</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Spring Garden</h3>
+              <span class="type-chip">2 primary + 2 complementary</span>
+            </div>
+            <p>Spring launches, garden promotions and cheerful social graphics</p>
+            <div class="hex-sequence">#FFF0B5 · #1E9336 · #F7ABCB · #5A3A6E</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Butter Cream #FFF0B5</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#FFF0B5"><button class="cta-btn" style="background:#1E9336;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Tropical Leaf Green</span><span class="cta-meta">Fill #1E9336 · text #FFFFFF</span><span class="cta-badges"><b class="mid">3.48:1 vs surface</b> · <b class="mid">3.98:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#FFF0B5"><button class="cta-btn" style="background:#5A3A6E;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Deep Plum</span><span class="cta-meta">Fill #5A3A6E · text #FFFFFF</span><span class="cta-badges"><b class="ok">8.12:1 vs surface</b> · <b class="ok">9.27:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">02</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#FEFEFE;color:#242424"><span>Soft White</span><code>#FEFEFE</code></div><div class="palette-segment" style="background:#F05C36;color:#242424"><span>Red Orange</span><code>#F05C36</code></div><div class="palette-segment" style="background:#1C6CAC;color:#FFFFFF"><span>Bright Cobalt Blue</span><code>#1C6CAC</code></div><div class="palette-segment" style="background:#F9CC9C;color:#242424"><span>Warm Peach</span><code>#F9CC9C</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Summer Splash</h3>
+              <span class="type-chip">Primary colours only</span>
+            </div>
+            <p>Summer sales, travel themes and high-energy campaign graphics</p>
+            <div class="hex-sequence">#FEFEFE · #F05C36 · #1C6CAC · #F9CC9C</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Soft White #FEFEFE</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#FEFEFE"><button class="cta-btn" style="background:#F05C36;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Red Orange</span><span class="cta-meta">Fill #F05C36 · text #242424</span><span class="cta-badges"><b class="mid">3.31:1 vs surface</b> · <b class="ok">4.65:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#FEFEFE"><button class="cta-btn" style="background:#1C6CAC;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Bright Cobalt Blue</span><span class="cta-meta">Fill #1C6CAC · text #FFFFFF</span><span class="cta-badges"><b class="ok">5.49:1 vs surface</b> · <b class="ok">5.54:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">03</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#61441F;color:#FFFFFF"><span>Earth Brown</span><code>#61441F</code></div><div class="palette-segment" style="background:#F4B620;color:#242424"><span>Golden Yellow</span><code>#F4B620</code></div><div class="palette-segment" style="background:#EB9C2D;color:#242424"><span>Warm Orange</span><code>#EB9C2D</code></div><div class="palette-segment" style="background:#F9CC9C;color:#242424"><span>Warm Peach</span><code>#F9CC9C</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Autumn Harvest</h3>
+              <span class="type-chip">Primary colours only</span>
+            </div>
+            <p>Autumn campaigns, warm product launches and cosy promotions</p>
+            <div class="hex-sequence">#61441F · #F4B620 · #EB9C2D · #F9CC9C</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Earth Brown #61441F</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#61441F"><button class="cta-btn" style="background:#F4B620;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Golden Yellow</span><span class="cta-meta">Fill #F4B620 · text #242424</span><span class="cta-badges"><b class="ok">4.91:1 vs surface</b> · <b class="ok">8.54:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#61441F"><button class="cta-btn" style="background:#F9CC9C;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Warm Peach</span><span class="cta-meta">Fill #F9CC9C · text #242424</span><span class="cta-badges"><b class="ok">6.01:1 vs surface</b> · <b class="ok">10.46:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">04</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#FEFEFE;color:#242424"><span>Soft White</span><code>#FEFEFE</code></div><div class="palette-segment" style="background:#F05C36;color:#242424"><span>Red Orange</span><code>#F05C36</code></div><div class="palette-segment" style="background:#1E9336;color:#FFFFFF"><span>Tropical Leaf Green</span><code>#1E9336</code></div><div class="palette-segment" style="background:#F4B620;color:#242424"><span>Golden Yellow</span><code>#F4B620</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Festive Cheer</h3>
+              <span class="type-chip">Primary colours only</span>
+            </div>
+            <p>Christmas, gifting and end-of-year sale graphics</p>
+            <div class="hex-sequence">#FEFEFE · #F05C36 · #1E9336 · #F4B620</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Soft White #FEFEFE</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#FEFEFE"><button class="cta-btn" style="background:#F05C36;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Red Orange</span><span class="cta-meta">Fill #F05C36 · text #242424</span><span class="cta-badges"><b class="mid">3.31:1 vs surface</b> · <b class="ok">4.65:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#FEFEFE"><button class="cta-btn" style="background:#1E9336;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Tropical Leaf Green</span><span class="cta-meta">Fill #1E9336 · text #FFFFFF</span><span class="cta-badges"><b class="mid">3.94:1 vs surface</b> · <b class="mid">3.98:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">05</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#B9D9F2;color:#242424"><span>Powder Blue</span><code>#B9D9F2</code></div><div class="palette-segment" style="background:#1C6CAC;color:#FFFFFF"><span>Bright Cobalt Blue</span><code>#1C6CAC</code></div><div class="palette-segment" style="background:#243B64;color:#FFFFFF"><span>Midnight Navy</span><code>#243B64</code></div><div class="palette-segment" style="background:#C9B8E8;color:#242424"><span>Lavender Mist</span><code>#C9B8E8</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Moonlit Winter</h3>
+              <span class="type-chip">1 primary + 3 complementary</span>
+            </div>
+            <p>Winter promotions, evening campaigns and cool premium graphics</p>
+            <div class="hex-sequence">#B9D9F2 · #1C6CAC · #243B64 · #C9B8E8</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Powder Blue #B9D9F2</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#B9D9F2"><button class="cta-btn" style="background:#243B64;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Midnight Navy</span><span class="cta-meta">Fill #243B64 · text #FFFFFF</span><span class="cta-badges"><b class="ok">7.57:1 vs surface</b> · <b class="ok">11.14:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#B9D9F2"><button class="cta-btn" style="background:#1C6CAC;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Bright Cobalt Blue</span><span class="cta-meta">Fill #1C6CAC · text #FFFFFF</span><span class="cta-badges"><b class="mid">3.77:1 vs surface</b> · <b class="ok">5.54:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">06</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#5A3A6E;color:#FFFFFF"><span>Deep Plum</span><code>#5A3A6E</code></div><div class="palette-segment" style="background:#F7ABCB;color:#242424"><span>Bubblegum Pink</span><code>#F7ABCB</code></div><div class="palette-segment" style="background:#C9B8E8;color:#242424"><span>Lavender Mist</span><code>#C9B8E8</code></div><div class="palette-segment" style="background:#C87998;color:#242424"><span>Rose Mauve</span><code>#C87998</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Valentine Pop</h3>
+              <span class="type-chip">1 primary + 3 complementary</span>
+            </div>
+            <p>Valentine’s Day, gifting, beauty and playful romance themes</p>
+            <div class="hex-sequence">#5A3A6E · #F7ABCB · #C9B8E8 · #C87998</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Deep Plum #5A3A6E</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#5A3A6E"><button class="cta-btn" style="background:#F7ABCB;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Bubblegum Pink</span><span class="cta-meta">Fill #F7ABCB · text #242424</span><span class="cta-badges"><b class="ok">5.14:1 vs surface</b> · <b class="ok">8.61:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#5A3A6E"><button class="cta-btn" style="background:#C9B8E8;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Lavender Mist</span><span class="cta-meta">Fill #C9B8E8 · text #242424</span><span class="cta-badges"><b class="ok">5.08:1 vs surface</b> · <b class="ok">8.50:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">07</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#A8DCC8;color:#242424"><span>Seafoam Green</span><code>#A8DCC8</code></div><div class="palette-segment" style="background:#176B68;color:#FFFFFF"><span>Deep Teal</span><code>#176B68</code></div><div class="palette-segment" style="background:#61441F;color:#FFFFFF"><span>Earth Brown</span><code>#61441F</code></div><div class="palette-segment" style="background:#D8C6A5;color:#242424"><span>Sand Beige</span><code>#D8C6A5</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Earth Day</h3>
+              <span class="type-chip">1 primary + 3 complementary</span>
+            </div>
+            <p>Sustainability, gardening, wellness and organic product graphics</p>
+            <div class="hex-sequence">#A8DCC8 · #176B68 · #61441F · #D8C6A5</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Seafoam Green #A8DCC8</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#A8DCC8"><button class="cta-btn" style="background:#176B68;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Deep Teal</span><span class="cta-meta">Fill #176B68 · text #FFFFFF</span><span class="cta-badges"><b class="mid">4.11:1 vs surface</b> · <b class="ok">6.29:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#A8DCC8"><button class="cta-btn" style="background:#61441F;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Earth Brown</span><span class="cta-meta">Fill #61441F · text #FFFFFF</span><span class="cta-badges"><b class="ok">5.83:1 vs surface</b> · <b class="ok">8.92:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">08</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#EB9C2D;color:#242424"><span>Warm Orange</span><code>#EB9C2D</code></div><div class="palette-segment" style="background:#2E3025;color:#FFFFFF"><span>Charcoal Ink</span><code>#2E3025</code></div><div class="palette-segment" style="background:#5A3A6E;color:#FFFFFF"><span>Deep Plum</span><code>#5A3A6E</code></div><div class="palette-segment" style="background:#243B64;color:#FFFFFF"><span>Midnight Navy</span><code>#243B64</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Retro Halloween</h3>
+              <span class="type-chip">2 primary + 2 complementary</span>
+            </div>
+            <p>Halloween promotions with a playful rather than frightening tone</p>
+            <div class="hex-sequence">#EB9C2D · #2E3025 · #5A3A6E · #243B64</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Warm Orange #EB9C2D</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#EB9C2D"><button class="cta-btn" style="background:#2E3025;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Charcoal Ink</span><span class="cta-meta">Fill #2E3025 · text #FFFFFF</span><span class="cta-badges"><b class="ok">5.96:1 vs surface</b> · <b class="ok">13.41:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#EB9C2D"><button class="cta-btn" style="background:#5A3A6E;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Deep Plum</span><span class="cta-meta">Fill #5A3A6E · text #FFFFFF</span><span class="cta-badges"><b class="mid">4.12:1 vs surface</b> · <b class="ok">9.27:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">09</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#FEFEFE;color:#242424"><span>Soft White</span><code>#FEFEFE</code></div><div class="palette-segment" style="background:#F05C36;color:#242424"><span>Red Orange</span><code>#F05C36</code></div><div class="palette-segment" style="background:#176B68;color:#FFFFFF"><span>Deep Teal</span><code>#176B68</code></div><div class="palette-segment" style="background:#B9D9F2;color:#242424"><span>Powder Blue</span><code>#B9D9F2</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Coastal Sale</h3>
+              <span class="type-chip">2 primary + 2 complementary</span>
+            </div>
+            <p>Summer sale graphics, beach themes and fresh ecommerce campaigns</p>
+            <div class="hex-sequence">#FEFEFE · #F05C36 · #176B68 · #B9D9F2</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Soft White #FEFEFE</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#FEFEFE"><button class="cta-btn" style="background:#F05C36;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Red Orange</span><span class="cta-meta">Fill #F05C36 · text #242424</span><span class="cta-badges"><b class="mid">3.31:1 vs surface</b> · <b class="ok">4.65:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#FEFEFE"><button class="cta-btn" style="background:#176B68;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Deep Teal</span><span class="cta-meta">Fill #176B68 · text #FFFFFF</span><span class="cta-badges"><b class="ok">6.24:1 vs surface</b> · <b class="ok">6.29:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">10</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#243B64;color:#FFFFFF"><span>Midnight Navy</span><code>#243B64</code></div><div class="palette-segment" style="background:#F4B620;color:#242424"><span>Golden Yellow</span><code>#F4B620</code></div><div class="palette-segment" style="background:#C9B8E8;color:#242424"><span>Lavender Mist</span><code>#C9B8E8</code></div><div class="palette-segment" style="background:#F7ABCB;color:#242424"><span>Bubblegum Pink</span><code>#F7ABCB</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Golden Night</h3>
+              <span class="type-chip">2 primary + 2 complementary</span>
+            </div>
+            <p>New Year, premium events, evening launches and celebratory offers</p>
+            <div class="hex-sequence">#243B64 · #F4B620 · #C9B8E8 · #F7ABCB</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Midnight Navy #243B64</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#243B64"><button class="cta-btn" style="background:#F4B620;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Golden Yellow</span><span class="cta-meta">Fill #F4B620 · text #242424</span><span class="cta-badges"><b class="ok">6.13:1 vs surface</b> · <b class="ok">8.54:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#243B64"><button class="cta-btn" style="background:#C9B8E8;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Lavender Mist</span><span class="cta-meta">Fill #C9B8E8 · text #242424</span><span class="cta-badges"><b class="ok">6.10:1 vs surface</b> · <b class="ok">8.50:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">11</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#C9B8E8;color:#242424"><span>Lavender Mist</span><code>#C9B8E8</code></div><div class="palette-segment" style="background:#5A3A6E;color:#FFFFFF"><span>Deep Plum</span><code>#5A3A6E</code></div><div class="palette-segment" style="background:#243B64;color:#FFFFFF"><span>Midnight Navy</span><code>#243B64</code></div><div class="palette-segment" style="background:#B9D9F2;color:#242424"><span>Powder Blue</span><code>#B9D9F2</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Berry Frost</h3>
+              <span class="type-chip">Complementary colours only</span>
+            </div>
+            <p>Winter berry sales, cool-toned drops and premium seasonal offers</p>
+            <div class="hex-sequence">#C9B8E8 · #5A3A6E · #243B64 · #B9D9F2</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Lavender Mist #C9B8E8</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#C9B8E8"><button class="cta-btn" style="background:#5A3A6E;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Deep Plum</span><span class="cta-meta">Fill #5A3A6E · text #FFFFFF</span><span class="cta-badges"><b class="ok">5.08:1 vs surface</b> · <b class="ok">9.27:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#C9B8E8"><button class="cta-btn" style="background:#243B64;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Midnight Navy</span><span class="cta-meta">Fill #243B64 · text #FFFFFF</span><span class="cta-badges"><b class="ok">6.10:1 vs surface</b> · <b class="ok">11.14:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">12</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#1C6CAC;color:#FFFFFF"><span>Bright Cobalt Blue</span><code>#1C6CAC</code></div><div class="palette-segment" style="background:#F4B620;color:#242424"><span>Golden Yellow</span><code>#F4B620</code></div><div class="palette-segment" style="background:#F9CC9C;color:#242424"><span>Warm Peach</span><code>#F9CC9C</code></div><div class="palette-segment" style="background:#F05C36;color:#242424"><span>Red Orange</span><code>#F05C36</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Citrus Pop</h3>
+              <span class="type-chip">Primary colours only</span>
+            </div>
+            <p>Flash sales, bold promo banners and high-energy launch graphics</p>
+            <div class="hex-sequence">#1C6CAC · #F4B620 · #F9CC9C · #F05C36</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Bright Cobalt Blue #1C6CAC</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#1C6CAC"><button class="cta-btn" style="background:#F4B620;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Golden Yellow</span><span class="cta-meta">Fill #F4B620 · text #242424</span><span class="cta-badges"><b class="mid">3.05:1 vs surface</b> · <b class="ok">8.54:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#1C6CAC"><button class="cta-btn" style="background:#F9CC9C;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Warm Peach</span><span class="cta-meta">Fill #F9CC9C · text #242424</span><span class="cta-badges"><b class="mid">3.73:1 vs surface</b> · <b class="ok">10.46:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">13</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#FFF0B5;color:#242424"><span>Butter Cream</span><code>#FFF0B5</code></div><div class="palette-segment" style="background:#1E9336;color:#FFFFFF"><span>Tropical Leaf Green</span><code>#1E9336</code></div><div class="palette-segment" style="background:#176B68;color:#FFFFFF"><span>Deep Teal</span><code>#176B68</code></div><div class="palette-segment" style="background:#A8DCC8;color:#242424"><span>Seafoam Green</span><code>#A8DCC8</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Botanic Fresh</h3>
+              <span class="type-chip">1 primary + 3 complementary</span>
+            </div>
+            <p>Plant drops, garden restocks and fresh lifestyle campaigns</p>
+            <div class="hex-sequence">#FFF0B5 · #1E9336 · #176B68 · #A8DCC8</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Butter Cream #FFF0B5</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#FFF0B5"><button class="cta-btn" style="background:#1E9336;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Tropical Leaf Green</span><span class="cta-meta">Fill #1E9336 · text #FFFFFF</span><span class="cta-badges"><b class="mid">3.48:1 vs surface</b> · <b class="mid">3.98:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#FFF0B5"><button class="cta-btn" style="background:#176B68;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Deep Teal</span><span class="cta-meta">Fill #176B68 · text #FFFFFF</span><span class="cta-badges"><b class="ok">5.50:1 vs surface</b> · <b class="ok">6.29:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">14</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#FFF0B5;color:#242424"><span>Butter Cream</span><code>#FFF0B5</code></div><div class="palette-segment" style="background:#B8664A;color:#FFFFFF"><span>Terracotta Clay</span><code>#B8664A</code></div><div class="palette-segment" style="background:#61441F;color:#FFFFFF"><span>Earth Brown</span><code>#61441F</code></div><div class="palette-segment" style="background:#D8C6A5;color:#242424"><span>Sand Beige</span><code>#D8C6A5</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Terracotta Studio</h3>
+              <span class="type-chip">1 primary + 3 complementary</span>
+            </div>
+            <p>Homeware, lifestyle editorial and warm minimalist promotions</p>
+            <div class="hex-sequence">#FFF0B5 · #B8664A · #61441F · #D8C6A5</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Butter Cream #FFF0B5</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#FFF0B5"><button class="cta-btn" style="background:#B8664A;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Terracotta Clay</span><span class="cta-meta">Fill #B8664A · text #FFFFFF</span><span class="cta-badges"><b class="mid">3.65:1 vs surface</b> · <b class="mid">4.17:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#FFF0B5"><button class="cta-btn" style="background:#61441F;color:#FFFFFF">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Earth Brown</span><span class="cta-meta">Fill #61441F · text #FFFFFF</span><span class="cta-badges"><b class="ok">7.81:1 vs surface</b> · <b class="ok">8.92:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article>
+        <article class="palette-card">
+          <div class="palette-number">15</div>
+          <div class="palette-preview"><div class="palette-segment" style="background:#2E3025;color:#FFFFFF"><span>Charcoal Ink</span><code>#2E3025</code></div><div class="palette-segment" style="background:#F4B620;color:#242424"><span>Golden Yellow</span><code>#F4B620</code></div><div class="palette-segment" style="background:#F7ABCB;color:#242424"><span>Bubblegum Pink</span><code>#F7ABCB</code></div><div class="palette-segment" style="background:#A8DCC8;color:#242424"><span>Seafoam Green</span><code>#A8DCC8</code></div></div>
+          <div class="palette-content">
+            <div class="palette-heading">
+              <h3>Midnight Neon</h3>
+              <span class="type-chip">3 primary + 1 complementary</span>
+            </div>
+            <p>Product launches, premium drops and bold after-dark campaigns</p>
+            <div class="hex-sequence">#2E3025 · #F4B620 · #F7ABCB · #A8DCC8</div>
+            <div class="rec">
+              <div class="rec-label">Suggested CTA buttons</div>
+              <p class="rec-surface">Shown on this palette’s <b>Charcoal Ink #2E3025</b> surface, so the button-to-background contrast is obvious.</p>
+              <div class="cta-two"><div class="cta-opt"><div class="cta-stage" style="background:#2E3025"><button class="cta-btn" style="background:#F4B620;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Primary</span><span class="cta-name">Golden Yellow</span><span class="cta-meta">Fill #F4B620 · text #242424</span><span class="cta-badges"><b class="ok">7.38:1 vs surface</b> · <b class="ok">8.54:1 label</b></span></div></div><div class="cta-opt"><div class="cta-stage" style="background:#2E3025"><button class="cta-btn" style="background:#F7ABCB;color:#242424">Shop now</button></div><div class="cta-info"><span class="cta-role">Secondary</span><span class="cta-name">Bubblegum Pink</span><span class="cta-meta">Fill #F7ABCB · text #242424</span><span class="cta-badges"><b class="ok">7.44:1 vs surface</b> · <b class="ok">8.61:1 label</b></span></div></div></div>
+            </div>
+          </div>
+        </article></div>
+
+    <section class="cta-panel">
+      <div class="section-head">
+        <h2>Recommended CTA button &amp; text colours</h2>
+        <p class="note">Button colours chosen to sit on the store's warm off-white background (#F4F4EF) and dark ink menus (#242424), and to give the current orange checkout button a more accessible partner. Each button below is previewed on the real site background, with the text colour that scores best for legibility (WCAG 2.1 contrast against the button fill).</p>
+      </div>
+
+      <div class="site-context">
+        <span class="context-chip"><span class="dot" style="background:#F4F4EF"></span> Site background · #F4F4EF</span>
+        <span class="context-chip"><span class="dot" style="background:#242424"></span> Menu / ink text · #242424</span>
+        <span class="context-chip"><span class="dot" style="background:#F5993A"></span> Current checkout button · ~#F5993A</span>
+      </div>
+
+      <div class="guidance"><strong>Rule of thumb:</strong> one loud primary CTA per screen (checkout, add&nbsp;to&nbsp;cart, shop&nbsp;now), a calmer secondary for supporting actions, and a neutral dark option for low-key links or dark sections. Pick the text colour paired with each fill below — don't default to white, several fills read far better with the dark ink.</div>
+
+      <div class="cta-grid">
+
+        <article class="cta-card primary">
+          <div class="cta-stage">
+            <button class="cta-demo" style="background:#F05C36;color:#FFFFFF">Add to cart</button>
+            <span class="cta-stage-label">Primary CTA on site background</span>
+          </div>
+          <div class="cta-body">
+            <span class="cta-role p">Primary CTA</span>
+            <h3>Red Orange</h3>
+            <p>A deeper, richer take on the existing orange — same energy, but it stands out cleanly against the cream background and carries proper contrast. Best single button for checkout, add-to-cart and hero "shop now".</p>
+            <div class="cta-specs">
+              <span><span class="cta-swatch-mini" style="background:#F05C36"></span>Fill #F05C36</span>
+              <span class="sep">›</span>
+              <span><span class="cta-swatch-mini" style="background:#FFFFFF"></span>Text #FFFFFF</span>
+            </div>
+            <span class="wcag aalarge">AA · large / bold text · 3.34:1</span>
+            <p style="margin:12px 0 0;font-size:12.5px;">Prefer normal-weight labels? Use dark ink <code>#242424</code> instead — that lifts contrast to <strong>4.65:1</strong> (AA for all sizes).</p>
+          </div>
+        </article>
+
+        <article class="cta-card">
+          <div class="cta-stage">
+            <button class="cta-demo" style="background:#1C6CAC;color:#FFFFFF">Shop the range</button>
+            <span class="cta-stage-label">Secondary CTA on site background</span>
+          </div>
+          <div class="cta-body">
+            <span class="cta-role s">Secondary CTA</span>
+            <h3>Bright Cobalt Blue</h3>
+            <p>The natural cool counterweight to the orange. Reads as a distinct action without competing, and separates strongly from the warm background. Good for "view details", newsletter and filter actions.</p>
+            <div class="cta-specs">
+              <span><span class="cta-swatch-mini" style="background:#1C6CAC"></span>Fill #1C6CAC</span>
+              <span class="sep">›</span>
+              <span><span class="cta-swatch-mini" style="background:#FFFFFF"></span>Text #FFFFFF</span>
+            </div>
+            <span class="wcag aa">AA · all text sizes · 5.54:1</span>
+          </div>
+        </article>
+
+        <article class="cta-card">
+          <div class="cta-stage">
+            <button class="cta-demo" style="background:#F4B620;color:#242424">Save 20% today</button>
+            <span class="cta-stage-label">Promo / pricing highlight on site background</span>
+          </div>
+          <div class="cta-body">
+            <span class="cta-role s">Promo highlight</span>
+            <h3>Golden Yellow</h3>
+            <p>Highest-visibility fill for sale badges, pricing pills and "limited" tags. Almost never use white on it — pair with dark ink for a crisp, high-contrast label.</p>
+            <div class="cta-specs">
+              <span><span class="cta-swatch-mini" style="background:#F4B620"></span>Fill #F4B620</span>
+              <span class="sep">›</span>
+              <span><span class="cta-swatch-mini" style="background:#242424"></span>Text #242424</span>
+            </div>
+            <span class="wcag aaa">AAA · all text sizes · 8.54:1</span>
+          </div>
+        </article>
+
+        <article class="cta-card">
+          <div class="cta-stage">
+            <button class="cta-demo" style="background:#2E3025;color:#FFFFFF">Checkout</button>
+            <span class="cta-stage-label">Neutral / dark CTA on site background</span>
+          </div>
+          <div class="cta-body">
+            <span class="cta-role n">Neutral CTA</span>
+            <h3>Deep Charcoal Green</h3>
+            <p>The same dark used on the active menu tab — a quiet, premium button for dark sections, sticky bars or when you want the CTA to feel understated. Maximum legibility with white text.</p>
+            <div class="cta-specs">
+              <span><span class="cta-swatch-mini" style="background:#2E3025"></span>Fill #2E3025</span>
+              <span class="sep">›</span>
+              <span><span class="cta-swatch-mini" style="background:#FFFFFF"></span>Text #FFFFFF</span>
+            </div>
+            <span class="wcag aaa">AAA · all text sizes · 13.41:1</span>
+          </div>
+        </article>
+
+        <article class="cta-card">
+          <div class="cta-stage">
+            <button class="cta-demo" style="background:#1E9336;color:#FFFFFF">Add to plant kit</button>
+            <span class="cta-stage-label">On-brand plant CTA on site background</span>
+          </div>
+          <div class="cta-body">
+            <span class="cta-role s">Themed CTA</span>
+            <h3>Tropical Leaf Green</h3>
+            <p>On-theme for the plant products and bundles. Best kept for large, bold button labels — at small sizes the white text is borderline, so bump the weight or drop to dark ink.</p>
+            <div class="cta-specs">
+              <span><span class="cta-swatch-mini" style="background:#1E9336"></span>Fill #1E9336</span>
+              <span class="sep">›</span>
+              <span><span class="cta-swatch-mini" style="background:#FFFFFF"></span>Text #FFFFFF</span>
+            </div>
+            <span class="wcag aalarge">AA · large / bold text · 3.98:1</span>
+          </div>
+        </article>
+
+        <article class="cta-card">
+          <div class="cta-stage">
+            <button class="cta-demo outline" style="color:#2E3025;border-color:#2E3025">Learn more</button>
+            <span class="cta-stage-label">Outline / ghost CTA on site background</span>
+          </div>
+          <div class="cta-body">
+            <span class="cta-role n">Tertiary / ghost</span>
+            <h3>Ink Outline</h3>
+            <p>For low-priority actions next to a solid CTA — a transparent button with a dark ink outline and label. Keeps the layout calm and echoes the menu ink already on the page.</p>
+            <div class="cta-specs">
+              <span><span class="cta-swatch-mini" style="background:#F4F4EF"></span>Fill transparent</span>
+              <span class="sep">›</span>
+              <span><span class="cta-swatch-mini" style="background:#2E3025"></span>Text / border #2E3025</span>
+            </div>
+            <span class="wcag aaa">AAA · text vs background · 12.2:1</span>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="text-pairing">
+        <h4>Choosing the text colour</h4>
+        <p>Warm, light fills (Golden Yellow, Warm Peach, Bubblegum Pink) always take <strong>dark ink #242424</strong>. Deep, saturated fills (Cobalt Blue, Deep Charcoal, Red Orange with bold labels) take <strong>white #FFFFFF</strong>. Mid-tone fills (Red Orange, Tropical Green) sit on the fence — use white only for large/bold button text, and switch to dark ink for anything at body size. As a quick check: if you can't read the label comfortably at arm's length, flip the text colour.</p>
+      </div>
+    </section>
+  </section>
+</div>
+
+<script>
+  const buttons = [...document.querySelectorAll('.tab-button')];
+  const panels = [...document.querySelectorAll('.tab-panel')];
+
+  function activateTab(button) {
+    buttons.forEach(btn => {
+      const selected = btn === button;
+      btn.classList.toggle('active', selected);
+      btn.setAttribute('aria-selected', selected ? 'true' : 'false');
+    });
+    panels.forEach(panel => panel.classList.toggle('active', panel.id === button.dataset.tab));
+    history.replaceState(null, '', '#' + button.dataset.tab);
+  }
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => activateTab(button));
+    button.addEventListener('keydown', event => {
+      const currentIndex = buttons.indexOf(button);
+      if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' ? 1 : -1;
+        const next = buttons[(currentIndex + direction + buttons.length) % buttons.length];
+        next.focus();
+        activateTab(next);
+      }
+    });
+  });
+
+  const requestedPanel = location.hash.replace('#', '');
+  const requestedButton = buttons.find(button => button.dataset.tab === requestedPanel);
+  if (requestedButton) activateTab(requestedButton);
+</script>
+</body>
+</html>
